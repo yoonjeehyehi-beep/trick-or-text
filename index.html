@@ -175,23 +175,27 @@
             width: calc(100% - 8px);
             height: calc(100% - 8px);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background-size: cover;
             background-position: center;
             border: 1px solid #222;
+            padding: 5px;
+            box-sizing: border-box;
         }
         
         .card-front-inner p {
             background: rgba(0,0,0,0.85);
             color: #39ff14;
             padding: 6px 10px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             border: 1px solid #39ff14;
             border-radius: 4px;
             line-height: 1.3;
             box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+            margin: 0;
         }
 
         .card-back {
@@ -328,4 +332,29 @@
             { id: 'c2', type: 'cover', imageSrc: "book2.jpg", o1: "우리가 빛의 속도로 갈 수 없다면", o2: "우리가 빚의 속도로 갈 수 없다면", answer: "우리가 빛의 속도로 갈 수 없다면", note: "빛(Light)과 빚(Debt)은 받침(ㅊ/ㅈ)이 다릅니다." },
             { id: 'c3', type: 'cover', imageSrc: "book3.jpg", o1: "오늘 밤, 세계에서 이 사랑이 사라진다 해도", o2: "오늘 밤, 세계에서 이 사랑이 사라진다 해두", answer: "오늘 밤, 세계에서 이 사랑이 사라진다 해도", note: "종결 어미는 '-해도'가 표준어입니다." },
             { id: 'c4', type: 'cover', imageSrc: "book4.jpg", o1: "메밀꽃 필 무렵", o2: "매밀꽃 필 무렵", answer: "메밀꽃 필 무렵", note: "모음 'ㅔ'를 사용하는 '메밀'이 올바른 표기입니다." },
-            { id: 'c5', type: 'cover', imageSrc: "book5.jpg", o1: "해리포터와 마법사의 돌", o2
+            { id: 'c5', type: 'cover', imageSrc: "book5.jpg", o1: "해리포터와 마법사의 돌", o2: "해리포터와 마법사에 돌", answer: "해리포터와 마법사의 돌", note: "소유를 나타낼 때는 부사격 조사 '에'가 아니라 '의'를 씁니다." },
+            { id: 'c6', type: 'cover', imageSrc: "book6.jpg", o1: "죽은 시인의 사회", o2: "죽은 시인에 사회", answer: "죽은 시인의 사회", note: "시인의 소유를 나타내므로 '의'가 맞습니다." },
+            { id: 'c7', type: 'cover', imageSrc: "book7.jpg", o1: "창문 넘어 도망친 100세 노인", o2: "창문 너머 도망친 100세 노인", answer: "창문 넘어 도망친 100세 노인", note: "동사 '넘다'의 활용형은 '넘어'입니다. (너머는 명사)" },
+            { id: 'c8', type: 'cover', imageSrc: "book8.jpg", o1: "이상하고 자유로운 할머니가 되고 싶어", o2: "이상하고 자유로운 할머니가 돼고 싶어", answer: "이상하고 자유로운 할머니가 되고 싶어", note: "자음 어미 앞에서는 원형인 '되-'를 써야 합니다." },
+            { id: 'c9', type: 'cover', imageSrc: "book9.jpg", o1: "브람스를 좋아하세요", o2: "브람스를 좋아하새요", answer: "브람스를 좋아하세요", note: "종결 어미는 '-어요/세요'가 맞습니다." },
+            { id: 'c10', type: 'cover', imageSrc: "book10.jpg", o1: "체리새우: 비밀글입니다", o2: "체리세우: 비밀글입니다", answer: "체리새우: 비밀글입니다", note: "순우리말 동물 이름은 '새우'가 맞습니다." },
+            { id: 'c11', type: 'cover', imageSrc: "book11.jpg", o1: "오백년째 열다섯", o2: "오백년채 열다섯", answer: "오백년째 열다섯", note: "어떤 동안이나 순서를 나타내는 접미사는 '-째'입니다." },
+            { id: 'c12', type: 'cover', imageSrc: "book12.jpg", o1: "열다섯에 곰이라니", o2: "열다섯의 곰이라니", answer: "열다섯에 곰이라니", note: "시간이나 때를 나타낼 때는 부사격 조사 '에'를 씁니다." },
+            { id: 'c13', type: 'cover', imageSrc: "book13.jpg", o1: "행복할 거야 이래도 되나 싶을 정도로", o2: "행복할 거야 이래도 돼나 싶을 정도로", answer: "행복할 거야 이래도 되나 싶을 정도로", note: "어간 '되-' 뒤에 '-나'가 붙을 때는 '되나'가 맞습니다." },
+            { id: 'c14', type: 'cover', imageSrc: "book14.jpg", o1: "세계를 건너 너에게 갈게", o2: "세계를 건너 너에게 갈께", answer: "세계를 건너 너에게 갈게", note: "약속/의지를 나타내는 종결 어미는 '-ㄹ게'입니다." },
+            { id: 'c15', type: 'cover', imageSrc: "book15.jpg", o1: "제철행복", o2: "재철행복", answer: "제철행복", note: "한자어 '제(際)'가 쓰여 '제철'이 맞습니다." },
+            { id: 'c16', type: 'cover', imageSrc: "book16.jpg", o1: "작별하지 않는다", o2: "작별하지 안는다", answer: "작별하지 않는다", note: "부정형 보조용언은 '-지 않다'로 적습니다." },
+            { id: 'c17', type: 'cover', imageSrc: "book17.jpg", o1: "달리기를 말할 때 내가 하고 싶은 이야기", o2: "달리기를 말할 때 내가 하고 십은 이야기", answer: "달리기를 말할 때 내가 하고 싶은 이야기", note: "형태소를 밝혀 적으므로 '싶다'가 맞습니다." },
+            { id: 'c18', type: 'cover', imageSrc: "book18.jpg", o1: "기분이 태도가 되지 말자", o2: "기분이 태도가 돼지 말자", answer: "기분이 태도가 되지 말자", note: "자음 어미 '-지' 앞에서는 '되-'를 씁니다." },
+            { id: 'c19', type: 'cover', imageSrc: "book19.jpg", o1: "당신은 결국 무엇이든 해내는 사람", o2: "당신은 결국 무엇이던 해내는 사람", answer: "당신은 결국 무엇이든 해내는 사람", note: "물음이나 선택을 나타낼 때는 '-든(지)'를 씁니다." },
+            { id: 'c20', type: 'cover', imageSrc: "book20.jpg", o1: "이렇게 작지만 확실한 행복", o2: "이렇게 작지만 학실한 행복", answer: "이렇게 작지만 확실한 행복", note: "표준어는 '확실(確實)'입니다." },
+            { id: 'c21', type: 'cover', imageSrc: "book21.jpg", o1: "직업으로서의 소설가", o2: "직업으로써의 소설가", answer: "직업으로서의 소설가", note: "지위나 자격을 나타낼 때는 '-로서'를 씁니다." },
+            { id: 'c22', type: 'cover', imageSrc: "book22.jpg", o1: "내가 죽으면 장례식에 누가 와줄까", o2: "내가 죽으면 장래식에 누가 와줄까", answer: "내가 죽으면 장례식에 누가 와줄까", note: "사람의 죽음을 치르는 예식은 '장례식(葬禮式)'입니다." },
+            { id: 'c23', type: 'cover', imageSrc: "book23.jpg", o1: "죽고 싶지만 떡볶이는 먹고 싶어", o2: "죽고 십지만 떡볶이는 먹고 싶어", answer: "죽고 싶지만 떡볶이는 먹고 싶어", note: "형태소를 밝혀 적어 '싶지만'이 맞습니다." },
+            { id: 'c24', type: 'cover', imageSrc: "book24.jpg", o1: "유미의 세포들", o2: "유미에 세포들", answer: "유미의 세포들", note: "유미의 소유이므로 조사 '의'가 맞습니다." },
+            { id: 'c25', type: 'cover', imageSrc: "book25.jpg", o1: "서랍에 저녁을 넣어 두었다", o2: "서랍에 저녁을 너어 두었다", answer: "서랍에 저녁을 넣어 두었다", note: "어간 '넣-'의 원형을 밝혀 '넣어'로 적습니다." },
+            { id: 'c26', type: 'cover', imageSrc: "book26.jpg", o1: "너무 잘하려고 애쓰지 마라", o2: "너무 잘할려고 애쓰지 마라", answer: "너무 잘하려고 애쓰지 마라", note: "어미는 '-하려고'가 표준어입니다." },
+            { id: 'c27', type: 'cover', imageSrc: "book27.jpg", o1: "마당을 나온 암탉", o2: "마당을 나온 암닭", answer: "마당을 나온 암탉", note: "거센소리로 나는 닭은 '탉'으로 적습니다." },
+            { id: 'c28', type: 'cover', imageSrc: "book28.jpg", o1: "여름을 한 입 베어 물었더니", o2: "여름을 한 입 배어 물었더니", answer: "여름을 한 입 베어 물었더니", note: "이빨로 끊어 물다는 '베다(베어)'입니다." },
+            { id: 'c29', type: 'cover', imageSrc: "book29.jpg", o1: "왜 세계의 절반은 굶주리는가", o2: "왜 세계의 절반은 굼주리는가", answer: "왜 세계의 절반은 굶주리는가", note: "기본형은 '굶주리다'입니다." },
+            { id: 'c30', type: 'cover', imageSrc: "book30.jpg", o1: "가난한 아이들은 어떻게 어른이 되는가", o2: "가난한 아이들은 어떡해 어른이 되는가", answer: "가난한 아이들은 어떻게 어른이 되는가", note: "방법을 묻는 부사는 '어떻

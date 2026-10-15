@@ -65,7 +65,6 @@
             border-radius: 5px;
         }
 
-        /* 타이머 기본 스타일 */
         .timer-board {
             background: #1a1a1a;
             border: 2px solid #ff3333;
@@ -78,7 +77,6 @@
             transition: all 0.1s;
         }
 
-        /* 오답 시 타이머가 강렬하게 번쩍이는 애니메이션 */
         @keyframes timePenaltyFlash {
             0% { background-color: #ff0000; color: #ffffff; transform: scale(1.2) rotate(-3deg); box-shadow: 0 0 30px #ff0000; }
             25% { transform: scale(1.1) rotate(3deg); }
@@ -102,7 +100,6 @@
             box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
         }
 
-        /* 오답 시 바가 줄어드는 것을 부드럽고 명확하게 보여줌 */
         .ufo-progress {
             background: linear-gradient(90deg, #ff3333, #ff9933);
             height: 100%;
@@ -120,7 +117,6 @@
             white-space: nowrap;
         }
 
-        /* 일반 노트북 해상도(16:9)에 최적화된 그리드 */
         .card-container {
             display: grid;
             grid-template-columns: repeat(3, minmax(180px, 260px));
@@ -209,7 +205,6 @@
         
         .alien-icon { font-size: 2rem; text-shadow: 0 0 10px #39ff14; margin-bottom: 5px;}
         
-        /* 맞춤법 버튼 텍스트 크기 최적화 */
         .btn-choice {
             background-color: #1a1a1a;
             color: #39ff14;
@@ -301,13 +296,11 @@
     </div>
 
     <script>
-        // 시간 25초, 패널티 5초로 강력하게 설정
         const CONFIG = {
             QUESTIONS_PER_GAME: 6,     
             TIME_LIMIT: 25,            
             WRONG_PENALTY: 5,          
-            LIBRARY_NAME: "<매화뜨락_연결하는 도서관>",
-            CERTIFICATE_CODE: "[ 매화뜨락-수호자-2026 ]"
+            LIBRARY_NAME: "<매화뜨락_연결하는 도서관>"
         };
 
         const bookData = [
@@ -578,6 +571,10 @@
                     
                     let now = new Date();
                     let timeString = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+                    
+                    // 1부터 1000까지의 랜덤 난수 생성 (예: 007, 042, 999)
+                    let randomNum = Math.floor(Math.random() * 1000) + 1;
+                    let certCode = `[ 매화뜨락-NO.${String(randomNum).padStart(3, '0')} ]`;
 
                     setTimeout(() => {
                         document.body.innerHTML = `
@@ -587,7 +584,7 @@
                                 <p style="color:#ffd700; font-size: 1.1rem; margin-bottom: 15px; font-weight:700;">남은 시간: ${timeLeft}초 | 완료 시각: <span id="live-clock">${timeString}</span></p>
                                 <div style="margin: 15px auto; padding: 25px; border: 2px dashed #39ff14; background:rgba(57,255,20,0.1); display: inline-block; border-radius:10px; max-width:550px;">
                                     <h2 style="color:#ffd700; margin-top:0; font-size:1.4rem;">외계인 퇴치 성공 인증서</h2>
-                                    <p style="color:#fff; font-size:1.1rem;">인증 코드: <strong>${CONFIG.CERTIFICATE_CODE}</strong></p>
+                                    <p style="color:#fff; font-size:1.1rem;">인증 코드: <strong style="color:#ff3333; font-size:1.4rem; background-color:#ffe6e6; padding:2px 8px; border-radius:4px;">${certCode}</strong></p>
                                     <p style="color:#39ff14; font-size:1rem; font-weight:700;">이 화면을 캡처하여 도서부에게 보여주세요!</p>
                                     <p style="color:#fff; font-size:0.95rem;">오프라인 상품 교환권으로 바꿀 수 있습니다 🎁</p>
                                 </div>

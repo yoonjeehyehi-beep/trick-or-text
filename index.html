@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trick or Text: 비상 사태</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- 폭죽 효과를 위한 도구 불러오기 -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -18,7 +17,7 @@
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
             text-align: center;
             margin: 0;
-            padding: 10px 15px 45px 15px;
+            padding: 15px 15px 50px 15px;
             overflow-x: hidden;
             box-sizing: border-box;
         }
@@ -26,22 +25,22 @@
         h1 {
             color: #39ff14;
             text-shadow: 0 0 10px #39ff14, 0 0 20px #008000;
-            margin: 5px 0;
-            font-size: 1.7rem;
+            margin: 0 0 8px 0;
+            font-size: 1.8rem;
             font-weight: 900;
             letter-spacing: 1px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             word-break: keep-all;
         }
         
         .subtitle {
             color: #ffd700;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             word-break: keep-all;
             line-height: 1.4;
         }
@@ -51,87 +50,97 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }
 
         .status-board {
             background: #1a1a1a;
             border: 1px solid #39ff14;
-            padding: 5px 12px;
+            padding: 6px 15px;
             color: #39ff14;
             box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 700;
             border-radius: 5px;
         }
 
+        /* 타이머 기본 스타일 */
         .timer-board {
             background: #1a1a1a;
             border: 2px solid #ff3333;
-            padding: 5px 12px;
+            padding: 6px 15px;
             color: #ff3333;
             box-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 900;
             border-radius: 5px;
+            transition: all 0.1s;
+        }
+
+        /* 오답 시 타이머가 강렬하게 번쩍이는 애니메이션 */
+        @keyframes timePenaltyFlash {
+            0% { background-color: #ff0000; color: #ffffff; transform: scale(1.2) rotate(-3deg); box-shadow: 0 0 30px #ff0000; }
+            25% { transform: scale(1.1) rotate(3deg); }
+            50% { transform: scale(1.15) rotate(-2deg); }
+            100% { background-color: #1a1a1a; color: #ff3333; transform: scale(1) rotate(0deg); }
+        }
+        .flash { 
+            animation: timePenaltyFlash 0.5s ease-out; 
+            border-color: #ff0000 !important;
         }
 
         .ufo-track-container {
-            max-width: 550px;
-            margin: 0 auto 12px auto;
+            max-width: 650px;
+            margin: 0 auto 18px auto;
             background: #1a1a1a;
             border: 1px solid #39ff14;
             border-radius: 20px;
-            height: 20px;
+            height: 22px;
             position: relative;
             overflow: hidden;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
         }
 
+        /* 오답 시 바가 줄어드는 것을 부드럽고 명확하게 보여줌 */
         .ufo-progress {
             background: linear-gradient(90deg, #ff3333, #ff9933);
             height: 100%;
             width: 100%;
-            transition: width 1s linear;
+            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .ufo-icon {
             position: absolute;
-            top: -2px;
+            top: -3px;
             left: 100%;
-            font-size: 1.05rem;
-            transition: left 1s linear;
+            font-size: 1.1rem;
+            transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             transform: translateX(-100%);
             white-space: nowrap;
         }
 
+        /* 일반 노트북 해상도(16:9)에 최적화된 그리드 */
         .card-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px 18px;
-            max-width: 720px;
+            grid-template-columns: repeat(3, minmax(180px, 260px));
+            justify-content: center;
+            gap: 15px 25px;
+            max-width: 900px;
             margin: 0 auto;
-            justify-items: center;
         }
 
         .card {
-            background-color: transparent;
             width: 100%;
-            max-width: calc((100vh - 220px) * 0.33); 
-            min-width: 135px;
             aspect-ratio: 2 / 3;
             perspective: 1000px;
             cursor: pointer;
         }
 
-        @media (max-width: 650px) {
+        @media (max-width: 750px) {
             .card-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-            .card {
-                max-width: 100%;
+                grid-template-columns: repeat(2, minmax(150px, 1fr));
+                gap: 15px;
             }
         }
 
@@ -154,7 +163,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 6px;
+            padding: 8px;
             box-sizing: border-box;
             border-radius: 8px;
         }
@@ -167,8 +176,8 @@
         
         .card-front-inner {
             background-color: #111;
-            width: calc(100% - 6px);
-            height: calc(100% - 6px);
+            width: calc(100% - 8px);
+            height: calc(100% - 8px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -180,41 +189,43 @@
         .card-front-inner p {
             background: rgba(0,0,0,0.85);
             color: #39ff14;
-            padding: 6px 10px;
-            font-size: 0.8rem;
+            padding: 8px 12px;
+            font-size: 1rem;
             font-weight: 700;
             border: 1px solid #39ff14;
             border-radius: 4px;
-            line-height: 1.3;
-            box-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
+            line-height: 1.4;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
         }
 
         .card-back {
             background-color: #0a0a0a;
             border: 2px solid #ff3333;
-            box-shadow: inset 0 0 15px rgba(255, 51, 51, 0.2);
+            box-shadow: inset 0 0 20px rgba(255, 51, 51, 0.2);
             transform: rotateY(180deg);
             color: #fff;
-            padding: 10px;
+            padding: 12px;
         }
         
-        .alien-icon { font-size: 1.6rem; text-shadow: 0 0 10px #39ff14; margin-bottom: 2px;}
+        .alien-icon { font-size: 2rem; text-shadow: 0 0 10px #39ff14; margin-bottom: 5px;}
         
+        /* 맞춤법 버튼 텍스트 크기 최적화 */
         .btn-choice {
             background-color: #1a1a1a;
             color: #39ff14;
             border: 1px solid #39ff14;
             display: block;
             width: 100%;
-            margin-bottom: 6px;
-            padding: 8px 6px;
+            margin-bottom: 8px;
+            padding: 12px 8px;
             font-family: inherit;
-            font-size: 0.8rem;
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            border-radius: 4px;
+            border-radius: 5px;
             word-break: keep-all;
+            line-height: 1.3;
         }
         .btn-choice:hover {
             background-color: #39ff14;
@@ -227,9 +238,9 @@
             left: 0;
             width: 100%;
             background: rgba(13, 13, 13, 0.95);
-            padding: 6px 0;
+            padding: 8px 0;
             color: #39ff14;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 700;
             letter-spacing: 1px;
             z-index: 1000;
@@ -249,7 +260,7 @@
             border-color: #39ff14 !important;
             box-shadow: inset 0 0 20px rgba(57, 255, 20, 0.2) !important;
         }
-        .resolved h3 { color: #39ff14; margin: 4px 0; font-size: 0.95rem; font-weight: 900; }
+        .resolved h3 { color: #39ff14; margin: 6px 0; font-size: 1.1rem; font-weight: 900; }
 
         .wrong-note-box {
             background: #1a0505;
@@ -259,7 +270,7 @@
             max-width: 600px;
             border-radius: 8px;
             text-align: left;
-            max-height: 220px;
+            max-height: 250px;
             overflow-y: auto;
         }
     </style>
@@ -267,14 +278,14 @@
 <body>
 
     <h1>👽 TRICK OR TEXT 📖</h1>
-    <div class="subtitle">경고: 첫 카드를 여는 순간 20초 카운트다운 및 외계인의 추격이 시작됩니다! (오답 시 -2초 감점)<br><span style="color:#d4d4d4; font-size:0.75rem;">TIP: 카드의 빈 곳을 다시 클릭하면 표지로 뒤집어 볼 수 있습니다.</span></div>
+    <div class="subtitle">경고: 첫 카드를 여는 순간 25초 카운트다운 및 외계인의 추격 시작! (오답 시 -5초 감점)<br><span style="color:#d4d4d4; font-size:0.85rem;">TIP: 카드의 빈 곳을 다시 클릭하면 표지로 뒤집어 볼 수 있습니다.</span></div>
     
     <div class="dashboard">
         <div class="status-board">
             [ 지켜낸 우리말 : <span id="score">0</span> / <span id="target-score">6</span> ]
         </div>
         <div class="timer-board" id="timer-display">
-            ⏳ 20초
+            ⏳ 25초
         </div>
     </div>
 
@@ -290,10 +301,11 @@
     </div>
 
     <script>
+        // 시간 25초, 패널티 5초로 강력하게 설정
         const CONFIG = {
             QUESTIONS_PER_GAME: 6,     
-            TIME_LIMIT: 20,            
-            WRONG_PENALTY: 2,          
+            TIME_LIMIT: 25,            
+            WRONG_PENALTY: 5,          
             LIBRARY_NAME: "<매화뜨락_연결하는 도서관>",
             CERTIFICATE_CODE: "[ 매화뜨락-수호자-2026 ]"
         };
@@ -386,7 +398,7 @@
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(200, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
-                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.3);
             } else if (type === 'gameover') {
@@ -401,7 +413,6 @@
                 gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
                 osc.start(); osc.stop(audioCtx.currentTime + 1);
             } else if (type === 'fanfare') {
-                // 미션 클리어 시 팡파레 효과음 (도-미-솔-높은도!)
                 const notes = [523.25, 659.25, 783.99, 1046.50]; 
                 notes.forEach((freq, idx) => {
                     const o = audioCtx.createOscillator();
@@ -420,32 +431,22 @@
             }
         }
 
-        // 화면 양옆에서 폭죽을 터뜨리는 함수
         function launchFireworks() {
             if (typeof confetti !== 'function') return;
             var duration = 3 * 1000;
             var end = Date.now() + duration;
 
             (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#39ff14', '#ffd700', '#ff3333', '#00ffff']
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#39ff14', '#ffd700', '#ff3333', '#00ffff']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#39ff14', '#ffd700', '#ff3333', '#00ffff'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#39ff14', '#ffd700', '#ff3333', '#00ffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
+        }
+
+        function updateProgressVisuals() {
+            let pct = (timeLeft / CONFIG.TIME_LIMIT) * 100;
+            document.getElementById('ufo-bar').style.width = pct + '%';
+            document.getElementById('ufo-ico').style.left = pct + '%';
         }
 
         function startTimer() {
@@ -454,10 +455,7 @@
             timerInterval = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timer-display').innerText = `⏳ ${timeLeft}초`;
-                
-                let pct = (timeLeft / CONFIG.TIME_LIMIT) * 100;
-                document.getElementById('ufo-bar').style.width = pct + '%';
-                document.getElementById('ufo-ico').style.left = pct + '%';
+                updateProgressVisuals();
 
                 if (timeLeft <= 5 && timeLeft > 0) {
                     playSound('wrong');
@@ -475,9 +473,9 @@
             
             let noteHtml = "";
             if(missedItems.length > 0) {
-                noteHtml = `<div class="wrong-note-box"><h4 style="color:#ff3333; margin:0 0 10px;">🚨 오답 분석 노트</h4><ul>`;
+                noteHtml = `<div class="wrong-note-box"><h4 style="color:#ff3333; margin:0 0 10px; font-size:1.1rem;">🚨 오답 분석 노트</h4><ul>`;
                 missedItems.forEach(item => {
-                    noteHtml += `<li style="margin-bottom:8px;"><strong>${item.answer}</strong><br><span style="color:#a0a0a0; font-size:0.85rem;">💡 ${item.note}</span></li>`;
+                    noteHtml += `<li style="margin-bottom:10px; font-size:1.05rem;"><strong>${item.answer}</strong><br><span style="color:#a0a0a0; font-size:0.9rem;">💡 ${item.note}</span></li>`;
                 });
                 noteHtml += `</ul></div>`;
             }
@@ -485,11 +483,11 @@
             document.body.style.backgroundColor = '#1a0000';
             document.body.innerHTML = `
                 <div style="margin-top:3vh; padding-bottom:50px;">
-                    <h1 style="color:#ff3333; font-size: 2.3rem; text-shadow: 0 0 20px #ff0000;">🚨 외계인에게 납치되었습니다! 🚨</h1>
+                    <h1 style="color:#ff3333; font-size: 2.5rem; text-shadow: 0 0 20px #ff0000;">🚨 외계인에게 납치되었습니다! 🚨</h1>
                     <div style="font-size: 4rem; margin: 10px;">🛸💥😱</div>
-                    <p style="color:#ff6666; font-size: 1.15rem; font-weight:bold;">시간 초과! 외계인의 광선에 붙잡혀 우주선에 끌려갔습니다...</p>
+                    <p style="color:#ff6666; font-size: 1.2rem; font-weight:bold;">시간 초과! 외계인의 광선에 붙잡혀 우주선에 끌려갔습니다...</p>
                     ${noteHtml}
-                    <button onclick="location.reload()" style="font-size:1.1rem; padding: 10px 22px; margin-top:10px; background-color:#ff3333; color:#000; border:none; border-radius:5px; cursor:pointer; font-weight:700;">다시 도전하기</button>
+                    <button onclick="location.reload()" style="font-size:1.2rem; padding: 12px 25px; margin-top:10px; background-color:#ff3333; color:#000; border:none; border-radius:5px; cursor:pointer; font-weight:700;">다시 도전하기</button>
                 </div>
                 <div id="footer">${CONFIG.LIBRARY_NAME}</div>
             `;
@@ -526,7 +524,7 @@
 
                 const backContent = `
                     <div class="alien-icon">👽</div>
-                    <p style="margin:2px 0 6px; color:#ff3333; font-weight:700; word-break:keep-all; font-size:0.8rem;">
+                    <p style="margin:5px 0 10px; color:#ff3333; font-weight:700; word-break:keep-all; font-size:1rem;">
                         맞춤법에 맞는 책 제목을 찾아줘!
                     </p>
                     <button class="btn-choice" onclick="checkAnswer(event, '${item.id}', this)">${options[0]}</button>
@@ -542,7 +540,7 @@
                         </div>
                         <div class="card-back" id="back-${item.id}">
                             ${backContent}
-                            <p id="msg-${item.id}" style="color:#ff3333; font-size:11px; margin-top:3px; min-height:14px; font-weight:700;"></p>
+                            <p id="msg-${item.id}" style="color:#ff3333; font-size:0.9rem; margin-top:5px; min-height:16px; font-weight:700;"></p>
                         </div>
                     </div>
                 `;
@@ -561,21 +559,22 @@
             const msgElement = document.getElementById(`msg-${id}`);
             const backPanel = document.getElementById(`back-${id}`);
             const cardElement = document.getElementById(`card-${id}`);
+            const timerDisplay = document.getElementById('timer-display');
             
             if (userAnswer === correctAnswer) {
                 backPanel.classList.add('resolved');
                 backPanel.innerHTML = `
                     <div class="alien-icon" style="text-shadow: none; opacity: 0.8;">🛸💨</div>
                     <h3>우리말 구출 완료!</h3>
-                    <p style="color:#39ff14; font-size:0.9rem; font-weight:700; word-break:keep-all; margin: 4px 0;">${correctAnswer}</p>
-                    <p style="color:#a0a0a0; font-size:0.75rem; margin: 0;">외계인이 도망갔습니다.</p>
+                    <p style="color:#39ff14; font-size:1.1rem; font-weight:700; word-break:keep-all; margin: 8px 0;">${correctAnswer}</p>
+                    <p style="color:#a0a0a0; font-size:0.9rem; margin: 0;">외계인이 도망갔습니다.</p>
                 `;
                 score++;
                 document.getElementById('score').innerText = score;
 
                 if (score === CONFIG.QUESTIONS_PER_GAME) {
                     clearInterval(timerInterval); 
-                    playSound('fanfare'); // 마지막 문제 정답 시 팡파레 울림!
+                    playSound('fanfare'); 
                     
                     let now = new Date();
                     let timeString = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
@@ -583,22 +582,20 @@
                     setTimeout(() => {
                         document.body.innerHTML = `
                             <div style="margin-top:3vh; padding-bottom:50px;">
-                                <h1 style="color:#39ff14; font-size: 2.3rem;">🎉 우리말 구출 대성공! 🎉</h1>
-                                <p style="color:#d4d4d4; font-size: 1.05rem; font-weight:700;">외계인을 물리치고 모든 책 표지를 원래대로 되돌렸습니다!</p>
-                                <p style="color:#ffd700; font-size: 1rem; margin-bottom: 12px; font-weight:700;">남은 시간: ${timeLeft}초 | 완료 시각: <span id="live-clock">${timeString}</span></p>
-                                <div style="margin: 10px auto; padding: 20px; border: 2px dashed #39ff14; background:rgba(57,255,20,0.1); display: inline-block; border-radius:10px; max-width:500px;">
-                                    <h2 style="color:#ffd700; margin-top:0; font-size:1.3rem;">외계인 퇴치 성공 인증서</h2>
-                                    <p style="color:#fff; font-size:1rem;">인증 코드: <strong>${CONFIG.CERTIFICATE_CODE}</strong></p>
-                                    <p style="color:#39ff14; font-size:0.9rem; font-weight:700;">이 화면을 캡처하여 도서부에게 보여주세요!</p>
-                                    <p style="color:#fff; font-size:0.85rem;">오프라인 상품 교환권으로 바꿀 수 있습니다 🎁</p>
+                                <h1 style="color:#39ff14; font-size: 2.5rem;">🎉 우리말 구출 대성공! 🎉</h1>
+                                <p style="color:#d4d4d4; font-size: 1.15rem; font-weight:700;">외계인을 물리치고 모든 책 표지를 원래대로 되돌렸습니다!</p>
+                                <p style="color:#ffd700; font-size: 1.1rem; margin-bottom: 15px; font-weight:700;">남은 시간: ${timeLeft}초 | 완료 시각: <span id="live-clock">${timeString}</span></p>
+                                <div style="margin: 15px auto; padding: 25px; border: 2px dashed #39ff14; background:rgba(57,255,20,0.1); display: inline-block; border-radius:10px; max-width:550px;">
+                                    <h2 style="color:#ffd700; margin-top:0; font-size:1.4rem;">외계인 퇴치 성공 인증서</h2>
+                                    <p style="color:#fff; font-size:1.1rem;">인증 코드: <strong>${CONFIG.CERTIFICATE_CODE}</strong></p>
+                                    <p style="color:#39ff14; font-size:1rem; font-weight:700;">이 화면을 캡처하여 도서부에게 보여주세요!</p>
+                                    <p style="color:#fff; font-size:0.95rem;">오프라인 상품 교환권으로 바꿀 수 있습니다 🎁</p>
                                 </div>
                                 <br>
-                                <button onclick="location.reload()" style="font-size:1rem; padding: 10px 20px; margin-top:10px; background-color:#39ff14; color:#000; border:none; border-radius:5px; cursor:pointer; font-weight:700;">다시 하기</button>
+                                <button onclick="location.reload()" style="font-size:1.2rem; padding: 12px 25px; margin-top:15px; background-color:#39ff14; color:#000; border:none; border-radius:5px; cursor:pointer; font-weight:700;">다시 하기</button>
                             </div>
                             <div id="footer">${CONFIG.LIBRARY_NAME}</div>
                         `;
-
-                        // 화면 전환과 동시에 화려한 폭죽 발사!
                         launchFireworks();
 
                         setInterval(() => {
@@ -610,23 +607,35 @@
 
                     }, 600);
                 } else {
-                    playSound('correct'); // 평소 문제 맞혔을 때의 소리
+                    playSound('correct'); 
                 }
             } else {
                 playSound('wrong'); 
                 
+                // 오답 시 5초 즉시 삭감 및 화면 업데이트
                 timeLeft = Math.max(0, timeLeft - CONFIG.WRONG_PENALTY);
-                document.getElementById('timer-display').innerText = `⏳ ${timeLeft}초 (-2초!)`;
+                timerDisplay.innerText = `⏳ ${timeLeft}초 (-5초!)`;
+                updateProgressVisuals();
+
+                // 타이머 시각적 충격 애니메이션
+                timerDisplay.classList.remove('flash');
+                void timerDisplay.offsetWidth; // 애니메이션 초기화 트릭
+                timerDisplay.classList.add('flash');
 
                 if(!missedItems.some(i => i.id === id)) {
                     let missedBook = bookData.find(b => b.id === id);
                     if(missedBook) missedItems.push(missedBook);
                 }
 
-                if (msgElement) msgElement.innerText = "경고: 오답! -2초 감점 삐리-";
+                if (msgElement) msgElement.innerText = "경고: 오답! -5초 감점 삐리-";
                 cardElement.classList.remove('error');
                 void cardElement.offsetWidth;
                 cardElement.classList.add('error');
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    triggerGameOver();
+                }
             }
         }
 

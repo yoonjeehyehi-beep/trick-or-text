@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trick or Text: 비상 사태</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
             background-color: #0d0d0d;
@@ -312,7 +313,6 @@
         <div class="ufo-icon" id="ufo-ico">⏳🛸</div>
     </div>
 
-    <!-- 카드가 그려질 공간 -->
     <div class="card-container" id="card-grid"></div>
 
     <div id="footer">
@@ -320,7 +320,6 @@
     </div>
 
     <script>
-    try {
         const CONFIG = {
             QUESTIONS_PER_GAME: 8,     
             TIME_LIMIT: 35,            
@@ -346,4 +345,350 @@
             { id: 'c15', type: 'cover', imageSrc: "book15.jpg", o1: "제철행복", o2: "재철행복", answer: "제철행복", note: "한자어 '제(際)'가 쓰여 '제철'이 맞습니다." },
             { id: 'c16', type: 'cover', imageSrc: "book16.jpg", o1: "작별하지 않는다", o2: "작별하지 안는다", answer: "작별하지 않는다", note: "부정형 보조용언은 '-지 않다'로 적습니다." },
             { id: 'c17', type: 'cover', imageSrc: "book17.jpg", o1: "달리기를 말할 때 내가 하고 싶은 이야기", o2: "달리기를 말할 때 내가 하고 십은 이야기", answer: "달리기를 말할 때 내가 하고 싶은 이야기", note: "형태소를 밝혀 적으므로 '싶다'가 맞습니다." },
-            { id: 'c18', type: 'cover', imageSrc: "book18.jpg", o1: "기분이 태도가 되지 말자", o2: "기분이 태도가 돼지 말자", answer: "기분이 태
+            { id: 'c18', type: 'cover', imageSrc: "book18.jpg", o1: "기분이 태도가 되지 말자", o2: "기분이 태도가 돼지 말자", answer: "기분이 태도가 되지 말자", note: "자음 어미 '-지' 앞에서는 '되-'를 씁니다." },
+            { id: 'c19', type: 'cover', imageSrc: "book19.jpg", o1: "당신은 결국 무엇이든 해내는 사람", o2: "당신은 결국 무엇이던 해내는 사람", answer: "당신은 결국 무엇이든 해내는 사람", note: "물음이나 선택을 나타낼 때는 '-든(지)'를 씁니다." },
+            { id: 'c20', type: 'cover', imageSrc: "book20.jpg", o1: "이렇게 작지만 확실한 행복", o2: "이렇게 작지만 학실한 행복", answer: "이렇게 작지만 확실한 행복", note: "표준어는 '확실(確實)'입니다." },
+            { id: 'c21', type: 'cover', imageSrc: "book21.jpg", o1: "직업으로서의 소설가", o2: "직업으로써의 소설가", answer: "직업으로서의 소설가", note: "지위나 자격을 나타낼 때는 '-로서'를 씁니다." },
+            { id: 'c22', type: 'cover', imageSrc: "book22.jpg", o1: "내가 죽으면 장례식에 누가 와줄까", o2: "내가 죽으면 장래식에 누가 와줄까", answer: "내가 죽으면 장례식에 누가 와줄까", note: "사람의 죽음을 치르는 예식은 '장례식(葬禮式)'입니다." },
+            { id: 'c23', type: 'cover', imageSrc: "book23.jpg", o1: "죽고 싶지만 떡볶이는 먹고 싶어", o2: "죽고 십지만 떡볶이는 먹고 싶어", answer: "죽고 싶지만 떡볶이는 먹고 싶어", note: "형태소를 밝혀 적어 '싶지만'이 맞습니다." },
+            { id: 'c24', type: 'cover', imageSrc: "book24.jpg", o1: "유미의 세포들", o2: "유미에 세포들", answer: "유미의 세포들", note: "유미의 소유이므로 조사 '의'가 맞습니다." },
+            { id: 'c25', type: 'cover', imageSrc: "book25.jpg", o1: "서랍에 저녁을 넣어 두었다", o2: "서랍에 저녁을 너어 두었다", answer: "서랍에 저녁을 넣어 두었다", note: "어간 '넣-'의 원형을 밝혀 '넣어'로 적습니다." },
+            { id: 'c26', type: 'cover', imageSrc: "book26.jpg", o1: "너무 잘하려고 애쓰지 마라", o2: "너무 잘할려고 애쓰지 마라", answer: "너무 잘하려고 애쓰지 마라", note: "어미는 '-하려고'가 표준어입니다." },
+            { id: 'c27', type: 'cover', imageSrc: "book27.jpg", o1: "마당을 나온 암탉", o2: "마당을 나온 암닭", answer: "마당을 나온 암탉", note: "거센소리로 나는 닭은 '탉'으로 적습니다." },
+            { id: 'c28', type: 'cover', imageSrc: "book28.jpg", o1: "여름을 한 입 베어 물었더니", o2: "여름을 한 입 배어 물었더니", answer: "여름을 한 입 베어 물었더니", note: "이빨로 끊어 물다는 '베다(베어)'입니다." },
+            { id: 'c29', type: 'cover', imageSrc: "book29.jpg", o1: "왜 세계의 절반은 굶주리는가", o2: "왜 세계의 절반은 굼주리는가", answer: "왜 세계의 절반은 굶주리는가", note: "기본형은 '굶주리다'입니다." },
+            { id: 'c30', type: 'cover', imageSrc: "book30.jpg", o1: "가난한 아이들은 어떻게 어른이 되는가", o2: "가난한 아이들은 어떡해 어른이 되는가", answer: "가난한 아이들은 어떻게 어른이 되는가", note: "방법을 묻는 부사는 '어떻게'입니다." },
+            { id: 'c31', type: 'cover', imageSrc: "book31.jpg", o1: "게으른 자를 위한 수상한 화학책", o2: "개으른 자를 위한 수상한 화학책", answer: "게으른 자를 위한 수상한 화학책", note: "표준어는 '게으르다'입니다." },
+            { id: 'c32', type: 'cover', imageSrc: "book32.jpg", o1: "알사탕 제조법", o2: "알사탕 재조법", answer: "알사탕 제조법", note: "물건을 만들어냄은 '제조(製造)'입니다." },
+            { id: 'c33', type: 'cover', imageSrc: "book33.jpg", o1: "너의 여름에 내가 닿을게", o2: "너의 여름에 내가 닷을게", answer: "너의 여름에 내가 닿을게", note: "기본형 '닿다'의 받침 'ㅎ'을 살려 적습니다." },
+            { id: 'c34', type: 'cover', imageSrc: "book34.jpg", o1: "고백해도 되는 타이밍", o2: "고백해도 돼는 타이밍", answer: "고백해도 되는 타이밍", note: "자음 어미 '-는' 앞에서는 '되-'를 씁니다." },
+            { id: 'c35', type: 'cover', imageSrc: "book35.jpg", o1: "어쩌다 중학생 같은 걸 하고 있을까", o2: "어쩌다 중학생 같은 걸 하고 잇을까", answer: "어쩌다 중학생 같은 걸 하고 있을까", note: "존재를 뜻하는 말은 쌍시옷 받침의 '있다'입니다." },
+            { id: 'c36', type: 'cover', imageSrc: "book36.jpg", o1: "너무 늦은 안녕은 없다", o2: "너무 늣은 안녕은 없다", answer: "너무 늦은 안녕은 없다", note: "기본형은 '늦다(지긋하다)'입니다." },
+            { id: 'c37', type: 'cover', imageSrc: "book37.jpg", o1: "죽음의 수용소에서", o2: "죽음의 수용서에서", answer: "죽음의 수용소에서", note: "일정한 시설을 뜻하는 한자는 '소(所)'입니다." },
+            { id: 'c38', type: 'cover', imageSrc: "book38.jpg", o1: "개를 낳았다", o2: "개를 나았다", answer: "개를 낳았다", note: "새끼를 세상에 나오게 함은 '낳다'입니다." },
+            { id: 'c39', type: 'cover', imageSrc: "book39.jpg", o1: "나 혼자만 레벨업", o2: "나 혼자만 레밸업", answer: "나 혼자만 레벨업", note: "외래어 표기법에 따라 '레벨'이 맞습니다." },
+            { id: 'c40', type: 'cover', imageSrc: "book40.jpg", o1: "나의 비거니즘 만화", o2: "나의 비건이즘 만화", answer: "나의 비거니즘 만화", note: "어원 뒤에 접미사가 결합하여 연음된 '비거니즘'이 맞습니다." },
+            { id: 'c41', type: 'cover', imageSrc: "book41.jpg", o1: "양면의 조개껍데기", o2: "양면의 조개껍대기", answer: "양면의 조개껍데기", note: "거센소리 뒤에는 주로 '데기'가 붙습니다." }
+        ];
+
+        const sentenceQuestions = [
+            { id: 's1', type: 'sentence', sentence: "나는 그 문제를 [ ? ] 생각해 보았다.", o1: "곰곰이", o2: "곰곰히", answer: "곰곰이", note: "부사 '곰곰이'가 올바른 표기입니다." },
+            { id: 's2', type: 'sentence', sentence: "그는 아무 말 없이 눈을 [ ? ] 감았다.", o1: "지그시", o2: "지긋이", answer: "지그시", note: "슬며시 힘을 주는 모양은 '지그시'입니다." },
+            { id: 's3', type: 'sentence', sentence: "어제 읽은 소설책은 정말 [ ? ].", o1: "재밌대", o2: "재밌데", answer: "재밌데", note: "직접 경험한 사실을 회상할 때는 '-데'를 씁니다." },
+            { id: 's4', type: 'sentence', sentence: "화재로 불길이 [ ? ] 번져나갔다.", o1: "걷잡을 수 없이", o2: "겉잡을 수 없이", answer: "걷잡을 수 없이", note: "상태가 커지는 것을 막는다는 뜻은 '걷잡다'입니다." },
+            { id: 's5', type: 'sentence', sentence: "친구와 사소한 일로 [ ? ] 다투고 말았다.", o1: "티격태격", o2: "티격테격", answer: "티격태격", note: "'티격태격'이 올바른 표기입니다." },
+            { id: 's6', type: 'sentence', sentence: "주말을 맞아 방 안을 [ ? ] 정돈했다.", o1: "깨끗이", o2: "깨끗히", answer: "깨끗이", note: "'-하다'가 붙는 어근 끝소리가 'ㅅ'이면 '-이'로 적습니다." },
+            { id: 's7', type: 'sentence', sentence: "이번 임무는 [ ? ] 넘어가기 힘들다.", o1: "무난히", o2: "무난이", answer: "무난히", note: "기본형 '무난하다'에서 파생된 부사는 '무난히'입니다." },
+            { id: 's8', type: 'sentence', sentence: "이 책을 친구에게 [ ? ] 전해주렴.", o1: "반드시", o2: "반듯이", answer: "반드시", note: "꼭, 틀림없이라는 뜻의 부사는 '반드시'입니다." },
+            { id: 's9', type: 'sentence', sentence: "비가 오려는지 아침부터 하늘이 [ ? ] 흐리다.", o1: "잔뜩", o2: "잔득", answer: "잔뜩", note: "'잔뜩'이 올바른 표기입니다." },
+            { id: 's10', type: 'sentence', sentence: "그의 변명은 도무지 [ ? ] 맞지 않는다.", o1: "사리에", o2: "사례에", answer: "사리에", note: "이치나 도리를 뜻하는 단어는 '사리(事理)'입니다." }
+        ];
+
+        let allData = []; 
+        let timeLeft = CONFIG.TIME_LIMIT;
+        let timerInterval = null;
+        let gameStarted = false;
+        let score = 0;
+        let missedItems = [];
+        let audioCtx = null;
+
+        function getAudioCtx() {
+            if (!audioCtx) {
+                try {
+                    const ACtx = window.AudioContext || window.webkitAudioContext;
+                    if (ACtx) audioCtx = new ACtx();
+                } catch(e) {}
+            }
+            return audioCtx;
+        }
+
+        document.getElementById('target-score').innerText = CONFIG.QUESTIONS_PER_GAME;
+        document.getElementById('timer-display').innerText = `⏳ ${CONFIG.TIME_LIMIT}초`;
+
+        function playSound(type) {
+            try {
+                const ctx = getAudioCtx();
+                if (!ctx) return;
+                if (ctx.state === 'suspended') ctx.resume();
+                
+                const osc = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                osc.connect(gainNode);
+                gainNode.connect(ctx.destination);
+
+                if (type === 'flip') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(300, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                    osc.start(); osc.stop(ctx.currentTime + 0.1);
+                } else if (type === 'correct') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(600, ctx.currentTime);
+                    osc.frequency.setValueAtTime(800, ctx.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
+                    osc.start(); osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(200, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+                    gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
+                    osc.start(); osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'gameover') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(150, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 1);
+                    gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 1);
+                    osc.start(); osc.stop(ctx.currentTime + 1);
+                }
+            } catch(e) {}
+        }
+
+        function launchFireworks() {
+            if (typeof confetti !== 'function') return;
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#39ff14', '#ffd700', '#ff3333'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#39ff14', '#ffd700', '#ff3333'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
+        function updateProgressVisuals() {
+            let pct = (timeLeft / CONFIG.TIME_LIMIT) * 100;
+            let bar = document.getElementById('ufo-bar');
+            let ico = document.getElementById('ufo-ico');
+            if(bar) bar.style.width = pct + '%';
+            if(ico) ico.style.left = pct + '%';
+        }
+
+        function startTimer() {
+            if (gameStarted) return;
+            gameStarted = true;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let timerEl = document.getElementById('timer-display');
+                if(timerEl) timerEl.innerText = `⏳ ${timeLeft}초`;
+                updateProgressVisuals();
+
+                if (timeLeft <= 5 && timeLeft > 0) {
+                    playSound('wrong');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    triggerGameOver();
+                }
+            }, 1000);
+        }
+
+        function triggerGameOver() {
+            playSound('gameover');
+            
+            let noteHtml = "";
+            if(missedItems.length > 0) {
+                noteHtml = `<div class="wrong-note-box"><h4 style="color:#ff3333; margin:0 0 10px; font-size:1.1rem;">🚨 오답 분석 노트</h4><ul>`;
+                missedItems.forEach(item => {
+                    noteHtml += `<li style="margin-bottom:10px; font-size:1.05rem;"><strong>${item.answer}</strong><br><span style="color:#a0a0a0; font-size:0.9rem;">💡 ${item.note}</span></li>`;
+                });
+                noteHtml += `</ul></div>`;
+            }
+
+            document.body.style.backgroundColor = '#1a0000';
+            document.body.innerHTML = `
+                <div style="margin-top:3vh; padding-bottom:50px;">
+                    <h1 style="color:#ff3333; font-size: 2.5rem; text-shadow: 0 0 20px #ff0000;">🚨 외계인에게 납치되었습니다! 🚨</h1>
+                    <div style="font-size: 4rem; margin: 10px;">🛸💥😱</div>
+                    <p style="color:#ff6666; font-size: 1.2rem; font-weight:bold;">시간 초과! 외계인의 광선에 붙잡혀 우주선에 끌려갔습니다...</p>
+                    ${noteHtml}
+                    <button onclick="location.reload()" style="font-size:1.2rem; padding: 12px 25px; margin-top:10px; background-color:#ff3333; color:#000; border:none; border-radius:5px; cursor:pointer; font-weight:700;">다시 도전하기</button>
+                </div>
+                <div id="footer">${CONFIG.LIBRARY_NAME}</div>
+            `;
+        }
+
+        function shuffle(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function initGame() {
+            score = 0;
+            const grid = document.getElementById('card-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            
+            const selectedCovers = shuffle(coverQuestions).slice(0, 6);
+            const selectedSentences = shuffle(sentenceQuestions).slice(0, 2);
+            allData = shuffle([...selectedCovers, ...selectedSentences]);
+
+            allData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.id = `card-${item.id}`;
+                
+                card.onclick = function() { 
+                    startTimer();
+                    playSound('flip'); 
+                    this.classList.toggle('flipped'); 
+                };
+
+                const options = shuffle([item.o1, item.o2]);
+                let frontContent = '';
+                let backContent = '';
+
+                if (item.type === 'cover') {
+                    // 이미지가 깨지거나 없어도 에러 없이 네모 박스가 예쁘게 뜨도록 안전 처리
+                    frontContent = `
+                        <div class="card-front-inner" style="background-image: url('${item.imageSrc}');">
+                            <p>🚫 접근 금지 🚫<br>표지 데이터 손상</p>
+                        </div>
+                    `;
+                    backContent = `
+                        <div class="alien-icon">👽</div>
+                        <p style="margin:2px 0 6px; color:#ff3333; font-weight:700; word-break:keep-all; font-size:0.85rem;">
+                            맞춤법에 맞는 책 제목을 찾아줘!
+                        </p>
+                        <button class="btn-choice" onclick="checkAnswer(event, '${item.id}', this)">${options[0]}</button>
+                        <button class="btn-choice" onclick="checkAnswer(event, '${item.id}', this)">${options[1]}</button>
+                    `;
+                } else {
+                    frontContent = `
+                        <div class="card-front-inner" style="background: linear-gradient(135deg, #0a1a0a, #113311); display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                            <div style="font-size:2rem; margin-bottom:4px;">📜</div>
+                            <p style="color:#ffd700; border-color:#ffd700; background:rgba(0,0,0,0.6);">기밀 문서<br>해독 요망</p>
+                        </div>
+                    `;
+                    let formattedSentence = item.sentence.replace('[ ? ]', '<span class="highlight-blank">[ ? ]</span>');
+                    backContent = `
+                        <p style="margin:0 0 4px; color:#ffd700; font-weight:700; font-size:0.85rem;">🔍 훼손된 문장 복원</p>
+                        <div class="sentence-box">${formattedSentence}</div>
+                        <button class="btn-choice" onclick="checkAnswer(event, '${item.id}', this)">${options[0]}</button>
+                        <button class="btn-choice" onclick="checkAnswer(event, '${item.id}', this)">${options[1]}</button>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">
+                            ${frontContent}
+                        </div>
+                        <div class="card-back" id="back-${item.id}">
+                            ${backContent}
+                            <p id="msg-${item.id}" style="color:#ff3333; font-size:0.8rem; margin-top:2px; min-height:12px; font-weight:700;"></p>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function checkAnswer(event, id, btnElement) {
+            event.stopPropagation();
+            if(timeLeft <= 0) return;
+
+            const userAnswer = btnElement.innerText.trim();
+            const currentItem = allData.find(b => b.id === id);
+            const correctAnswer = currentItem.answer.trim();
+
+            const msgElement = document.getElementById(`msg-${id}`);
+            const backPanel = document.getElementById(`back-${id}`);
+            const cardElement = document.getElementById(`card-${id}`);
+            const timerDisplay = document.getElementById('timer-display');
+            
+            if (userAnswer === correctAnswer) {
+                playSound('correct'); 
+                backPanel.classList.add('resolved');
+                backPanel.innerHTML = `
+                    <div class="alien-icon" style="text-shadow: none; opacity: 0.8;">🛸💨</div>
+                    <h3>우리말 구출 완료!</h3>
+                    <p style="color:#39ff14; font-size:1.05rem; font-weight:700; word-break:keep-all; margin: 6px 0;">${correctAnswer}</p>
+                    <p style="color:#a0a0a0; font-size:0.85rem; margin: 0;">외계인이 도망갔습니다.</p>
+                `;
+                score++;
+                let scoreEl = document.getElementById('score');
+                if(scoreEl) scoreEl.innerText = score;
+
+                if (score === CONFIG.QUESTIONS_PER_GAME) {
+                    clearInterval(timerInterval); 
+                    
+                    let now = new Date();
+                    let timeString = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+                    
+                    let randomNum = Math.floor(Math.random() * 200) + 1;
+                    let certCode = `[ 매화뜨락-NO.${String(randomNum).padStart(3, '0')} ]`;
+
+                    setTimeout(() => {
+                        document.body.innerHTML = `
+                            <div style="margin-top:3vh; padding-bottom:50px;">
+                                <h1 style="color:#39ff14; font-size: 2.5rem;">🎉 우리말 구출 대성공! 🎉</h1>
+                                <p style="color:#d4d4d4; font-size: 1.15rem; font-weight:700;">외계인을 물리치고 모든 책 표지를 원래대로 되돌렸습니다!</p>
+                                <p style="color:#ffd700; font-size: 1.1rem; margin-bottom: 15px; font-weight:700;">남은 시간: ${timeLeft}초 | 완료 시각: <span id="live-clock">${timeString}</span></p>
+                                <div style="margin: 15px auto; padding: 20px; border: 2px dashed #39ff14; background:rgba(57,255,20,0.1); display: inline-block; border-radius:10px; max-width:550px;">
+                                    <h2 style="color:#ffd700; margin-top:0; font-size:1.4rem;">외계인 퇴치 성공 인증서</h2>
+                                    <p style="color:#fff; font-size:1.1rem; margin-bottom: 5px;">🏆 선착순 200명 한정 상품 교환권 🏆</p>
+                                    <p style="color:#fff; font-size:1.1rem;">인증 코드: <strong style="color:#ff3333; font-size:1.5rem; background-color:#ffe6e6; padding:2px 8px; border-radius:4px;">${certCode}</strong></p>
+                                    <p style="color:#39ff14; font-size:1rem; font-weight:700; margin-top: 10px;">이 화면을 캡처하여 도서부에게 보여주세요!</p>
+                                </div>
+                                <br>
+                                <button onclick="location.reload()" style="font-size:1.2rem; padding: 12px 25px; margin-top:15px; background-color:#39ff14; color:#000; border:none; border-radius:5px; cursor:pointer; font-weight:700;">다시 하기</button>
+                            </div>
+                            <div id="footer">${CONFIG.LIBRARY_NAME}</div>
+                        `;
+                        launchFireworks();
+
+                        setInterval(() => {
+                            let d = new Date();
+                            let tStr = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+                            let clockEl = document.getElementById('live-clock');
+                            if(clockEl) clockEl.innerText = tStr;
+                        }, 1000);
+
+                    }, 600);
+                }
+            } else {
+                playSound('wrong'); 
+                
+                timeLeft = Math.max(0, timeLeft - CONFIG.WRONG_PENALTY);
+                if(timerDisplay) timerDisplay.innerText = `⏳ ${timeLeft}초 (-5초!)`;
+                updateProgressVisuals();
+
+                if(timerDisplay) {
+                    timerDisplay.classList.remove('flash');
+                    void timerDisplay.offsetWidth; 
+                    timerDisplay.classList.add('flash');
+                }
+
+                if(!missedItems.some(i => i.id === id)) {
+                    let missedBook = allData.find(b => b.id === id);
+                    if(missedBook) missedItems.push(missedBook);
+                }
+
+                if (msgElement) msgElement.innerText = "경고: 오답! -5초 감점 삐리-";
+                if(cardElement) {
+                    cardElement.classList.remove('error');
+                    void cardElement.offsetWidth;
+                    cardElement.classList.add('error');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    triggerGameOver();
+                }
+            }
+        }
+
+        window.onload = initGame;
+    </script>
+</body>
+</html>

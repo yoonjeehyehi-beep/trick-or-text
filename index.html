@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trick or Text: 비상 사태</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- 폭죽 효과 스크립트 (학교망 차단 시 작동 안 할 수 있으나 게임 진행에는 문제 없음) -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -297,14 +298,14 @@
 <body>
 
     <h1>👽 TRICK OR TEXT 📖</h1>
-    <div class="subtitle">경고: 첫 카드 오픈 시 25초 카운트다운 시작! (오답 시 -5초 감점)<br><span style="color:#d4d4d4; font-size:0.8rem;">TIP: 카드의 빈 곳을 다시 클릭하면 표지로 뒤집어 볼 수 있습니다.</span></div>
+    <div class="subtitle">경고: 첫 카드 오픈 시 30초 카운트다운 시작! (오답 시 -5초 감점)<br><span style="color:#d4d4d4; font-size:0.8rem;">TIP: 카드의 빈 곳을 다시 클릭하면 표지로 뒤집어 볼 수 있습니다.</span></div>
     
     <div class="dashboard">
         <div class="status-board">
             [ 지켜낸 우리말 : <span id="score">0</span> / <span id="target-score">8</span> ]
         </div>
         <div class="timer-board" id="timer-display">
-            ⏳ 25초
+            ⏳ 30초
         </div>
     </div>
 
@@ -322,7 +323,7 @@
     <script>
         const CONFIG = {
             QUESTIONS_PER_GAME: 8,     
-            TIME_LIMIT: 25,            
+            TIME_LIMIT: 30,            
             WRONG_PENALTY: 5,          
             LIBRARY_NAME: "<매화뜨락_연결하는 도서관>"
         };
@@ -548,7 +549,6 @@
                 let backContent = '';
 
                 if (item.type === 'cover') {
-                    // 이미지가 깨지거나 없어도 에러 없이 네모 박스가 예쁘게 뜨도록 안전 처리
                     frontContent = `
                         <div class="card-front-inner" style="background-image: url('${item.imageSrc}');">
                             <p>🚫 접근 금지 🚫<br>표지 데이터 손상</p>
@@ -625,7 +625,8 @@
                     let now = new Date();
                     let timeString = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
                     
-                    let randomNum = Math.floor(Math.random() * 200) + 1;
+                    // 168개 한정 랜덤 상품 코드 생성
+                    let randomNum = Math.floor(Math.random() * 168) + 1;
                     let certCode = `[ 매화뜨락-NO.${String(randomNum).padStart(3, '0')} ]`;
 
                     setTimeout(() => {
@@ -636,7 +637,7 @@
                                 <p style="color:#ffd700; font-size: 1.1rem; margin-bottom: 15px; font-weight:700;">남은 시간: ${timeLeft}초 | 완료 시각: <span id="live-clock">${timeString}</span></p>
                                 <div style="margin: 15px auto; padding: 20px; border: 2px dashed #39ff14; background:rgba(57,255,20,0.1); display: inline-block; border-radius:10px; max-width:550px;">
                                     <h2 style="color:#ffd700; margin-top:0; font-size:1.4rem;">외계인 퇴치 성공 인증서</h2>
-                                    <p style="color:#fff; font-size:1.1rem; margin-bottom: 5px;">🏆 선착순 200명 한정 상품 교환권 🏆</p>
+                                    <p style="color:#fff; font-size:1.1rem; margin-bottom: 5px;">🏆 선착순 168명 한정 상품 교환권 🏆</p>
                                     <p style="color:#fff; font-size:1.1rem;">인증 코드: <strong style="color:#ff3333; font-size:1.5rem; background-color:#ffe6e6; padding:2px 8px; border-radius:4px;">${certCode}</strong></p>
                                     <p style="color:#39ff14; font-size:1rem; font-weight:700; margin-top: 10px;">이 화면을 캡처하여 도서부에게 보여주세요!</p>
                                 </div>
@@ -688,7 +689,8 @@
             }
         }
 
-        window.onload = initGame;
+        // 인터넷 환경에 따라 로딩이 멈추는 현상을 방지하기 위해 스크립트 끝에서 즉시 화면 생성
+        initGame();
     </script>
 </body>
 </html>
